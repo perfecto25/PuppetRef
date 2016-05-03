@@ -1,0 +1,71 @@
+<html>
+<head>
+<!-- CSS -->
+<link href="style.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="prism.css" media="screen" />
+
+<!-- JS -->
+<script type="text/javascript" src="prism.js"></script>
+
+</head>
+
+
+<body>
+<span class="header">Certificates</span>
+List all certs
+<span class="cmd">puppet cert list --all</span>
+
+sign certificate
+<span class="cmd">puppet cert sign <certname></certname>
+
+remove client cert
+<span class="cmd">puppet cert clean</span>
+
+
+<hr>
+<span class="header">Configuration</span>
+Puppet configuration file:<br>
+/etc/puppetlabs/puppet/puppet.conf
+<p>
+Print all configuration settings:<br>
+puppet config print all
+
+<p></p>
+Check current Puppet version and if theres an update available:<br>
+./opt/puppetlabs/bin/puppet-enterprise-version-check
+
+
+
+
+
+<!--  ###########   LOGS  -->
+<a name="resources"></a>
+<span class="header">Log and File Locations</span>
+Puppet Server log:<br>
+/var/log/puppetlabs/puppetserver/puppetserver.log
+<p></p>
+PuppetDB log:<br>
+/var/log/puppetlabs/puppetdb/puppetdb.log
+<p></p>
+SSL certs location:<br>
+/etc/puppetlabs/puppet/ssl
+<p></p>
+Master Configuration file:<br>
+/etc/puppetlabs/puppet/puppet.conf
+<p></p>
+Agent installation packages:<br>
+/opt/puppetlabs/server/data/packages/public/current
+<p></p>
+Site.pp location:<br>
+/etc/puppetlabs/code/environments/productions/manifests/site.pp
+<p></p>
+Environment config file:<br>
+/etc/puppetlabs/code/environments/production/environment.conf
+<p></p>
+
+
+
+
+
+</body>
+</html>

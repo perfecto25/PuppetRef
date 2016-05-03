@@ -1,0 +1,61 @@
+<html>
+<head>
+<!-- CSS -->
+<link href="style.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="prism.css" media="screen" />
+
+<!-- JS -->
+<script type="text/javascript" src="prism.js"></script>
+
+</head>
+
+
+<body>
+
+<span class="header">Config</span><p>
+Agent config file:<br>
+<span class="cmd">/etc/puppetlabs/puppet/puppet.conf</span>    
+
+<hr>    
+<span class="header">Catalog</span><p>
+Catalog is saved on the agent as a .json file<br>
+<span class="cmd">/var/lib/puppet/client_data/catalog/$certname.json</span>
+
+<hr>
+<span class="header">Commands</span>
+<pre><code class="language-puppet">
+# Apply catalog using -verbose, -ignorecache, -no-daemonize
+# -detailed-exit-codes, -show_diff
+puppet agent --test (or -t)  
+
+# Run in debug mode with more output:
+puppet agent -t --debug
+
+# Run simulation (no changes to system):
+puppet agent -t --noop
+
+
+# Run catalog for different environment than whats configured
+# in Puppet Agent's conf file:
+puppet agent -t --environment development
+
+# Disable puppet agent from running on node:
+puppet agent --disable (this creates a lock file)
+
+# to enable:
+puppet agent --enable
+
+# show all installed packages:
+puppet resource package
+
+# install or remove package:
+puppet resource package apache ensure=present/absent
+
+# show all managed resources:
+puppet resource
+
+</code></pre>
+
+
+</body>
+</html>

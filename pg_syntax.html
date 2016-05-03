@@ -1,0 +1,340 @@
+<html>
+<head>
+<!-- CSS -->
+<link href="style.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="prism.css" media="screen" />
+
+<!-- JS -->
+<script type="text/javascript" src="prism.js"></script>
+
+</head>
+
+
+<body>
+<b>Contents</b>
+<ul>
+    <li><a href="#resources">Puppet Resources</a></li>
+    <li><a href="#resource_commands">Resource Commands</a></li>
+    <li><a href="#conditionals">Conditionals</a></li>
+    <li><a href="#variables">Variables</a></li>
+    <li><a href="#operators">Comparison Operators</a></li>
+    <li><a href="#ordering">Ordering</a></li>
+    <li><a href="#definedtypes">Defined Types</a></li>
+    <li><a href="#functions">Functions</a></li>
+    <li><a href="#templates">ERB Templates</a></li>
+</ul>    
+    
+    
+<p>
+<!--  ###########    RESOURCES  -->
+<a name="resources"></a>
+<span class="header">Puppet Resources</span>
+<pre><code class="language-puppet">
+package { 'ntp':
+  ensure =&gt; installed,
+}
+
+service { 'ntp':
+  name      =&gt; $service_name,
+  ensure    =&gt; running,
+  enable    =&gt; true,
+  subscribe =&gt; File['ntp.conf'],
+}
+
+file { 'ntp.conf':
+  path    =&gt; '/etc/ntp.conf',
+  ensure  =&gt; file,
+  require =&gt; Package['ntp'],
+  source  =&gt; "puppet:///modules/ntp/ntp.conf",
+  # This source file would be located on the<br>
+  # Puppet master at # /etc/puppetlabs/code/<br>
+  # modules/ntp/files/ntp.conf
+}
+
+# Virtual Resource
+@user { 'www-user':
+    ensure => present,
+    tag    => web,
+}
+
+# realize Virtual resource
+realize User['www-user']
+User <| tag == web |>
+
+
+# Resource default setting:
+Exec {
+    path => '/sbin:/bin:/usr/sbin:/usr/bin',
+}
+# this will make all Execs use the <br>
+# default path
+
+</code></pre>
+
+
+<!--  ############  COMMANDS  -->
+<hr>
+<a name="resource_commands"></a>
+<span class="header">Resource Commands</span><p>
+
+list all Puppet resources:<br>
+<span class="cmd">puppet describe --list</span><p>
+
+list metaparameters for specific resource<br>
+<span class="cmd">puppet describe user</span><p>
+
+
+<!--  ############  CONDITIONALS  -->
+<hr>
+<a name="conditionals"></a>
+<span class="header">Conditionals</span></p>
+
+Case Statement:
+<pre><code class="language-puppet">
+case $operatingsystem {
+  centos, redhat: { $service_name = 'ntpd' }
+  debian, ubuntu: { $service_name = 'ntp' }
+  default: { $service_name = 'unknown' }
+}
+</code></pre>
+<br>
+If Else Statement:
+<pre><code class="language-puppet">
+if $is_virtual {
+  warning('target is virtual.')
+}
+elsif $operatingsystem == 'Darwin' {
+  warning('module doesnt work on this OS.')
+}
+else {
+  include ntp
+}
+</code></pre>
+
+<br>Selector Statement:
+<pre><code class="language-puppet">
+$rootgroup = $osfamily ? {
+    'Solaris'          => 'wheel',
+    /(Darwin|FreeBSD)/ => 'wheel',
+    default            => 'root',
+}
+</code></pre>
+
+<br>Unless Statement:
+<pre><code class="language-puppet">
+unless $memorysize > 1024 {
+  $maxclient = 500
+}
+</code></pre>
+
+<br>IN operator:
+<pre><code class="language-puppet">
+if '64' in $::architecture
+if $user in [ 'joe','fred','bill' ]
+</code></pre>
+
+
+</span>
+<!--  ############  EOF CONDITIONALS  -->
+
+
+<!--  ############  VARIABLES  -->
+<hr>
+<a name="variables"></a>
+<span class="header">Variables</span></p>
+
+Assignment to Var:<br>
+<pre><code class="language-puppet">
+$content = "some content\n"
+</code></pre>
+<p></p>
+Arrays:<pre><code class="language-puppet">
+$address = [$addr1, $addr2, $addr3]
+
+file {'/tmp/testing':
+  ensure  => file,
+  content => $content,
+}
+
+
+</code></pre>
+<pre><code class="language-puppet">
+Hashes:<br>
+
+$warning_msg = { memory => "memory low",
+                 disk => "disk space low"
+}
+                 
+notify { $warning_msg[disk]: }
+</code></pre>
+<!--  ############  EOF VARIABLES  -->
+
+
+<!--  ############  COMPARISON OPERATORS  -->
+<hr>
+<a name="operators"></a>
+<span class="header">Comparison Operators</span></p>
+<span class="cmd">==  (equality)</span><br>
+Accepts numbers, strings, arrays, hashes, booleans, data types<p>
+
+<span class="cmd">!=  (not-equal)</span><br>
+Resolves to false if the operands are equal. Note that $x != $y is the same as !($x == $y).<p>
+
+<span class="cmd"><, > (less than, greater than)</span><br>
+Accepts numbers, strings, and data types; both operands must be the same type.<p>
+
+<span class="cmd"><=, >=  (less than or equal to, greater than or equal to)</span><br>
+Accepts numbers, strings, and data types; both operands must be the same type.<p>
+
+<span class="cmd">=~  (regex)</span><br>
+Accepts regular expression (/^[<>={7}/), stringified regex "^/[]", data type (Integer[1,10])<p>
+
+<span class="cmd">!~  (regex non-match)</span><br>
+Accepts numbers, strings, arrays, hashes, booleans, data types<p>
+
+<span class="cmd">! (not)</span><br>
+Opposite of stated value.
+<pre><code class="language-puppet">
+$my_value = true; <br>
+notify { !$my_value: } # Will resolve to false </code></pre><p>
+
+<b>Data Types:</b><br>
+<ul>
+<li>Integer
+<li>Float
+<li>Boolean
+<li>Regexp
+<li>String
+<li>Array
+<li>Hash
+</ul>
+
+
+<!--  ############  EOF COMPARISON OPERATOR  -->
+
+
+<!--  ############  ORDERING  -->
+<hr>
+<a name="ordering"></a>
+<span class="header">Ordering</span></p>
+<b>Resource Ordering:</b><br>
+<pre><code class="language-puppet">
+package { 'openssh-server':
+  ensure => present,
+  before => File['/etc/ssh/sshd_config'],
+}
+
+file { '/etc/ssh/sshd_config':
+  ensure  => file,
+  mode    => '0600',
+  source  => 'puppet:///modules/sshd/sshd_config',
+  require => Package['openssh-server'],
+}
+</code></pre><br>
+same as:
+<pre><code class="language-puppet">
+file { '/etc/ssh/sshd_config':
+  ensure => file,
+  mode   => '0600',
+  source => 'puppet:///modules/sshd/sshd_config',
+  notify => Service['sshd'],
+}
+service { 'sshd':
+  ensure    => running,
+  enable    => true,
+  subscribe => File['/etc/ssh/sshd_config'],
+}
+</code></pre><br>
+<b>Chaining Arrows:</b>
+<pre><code class="language-puppet">
+Package['ntp'] -> File['/etc/ntp.conf'] ~> Service['ntpd']
+<br>
+
+# first:
+package { 'openssh-server':
+  ensure => present,
+} -> # and then:
+file { '/etc/ssh/sshd_config':
+  ensure => file,
+  mode   => '0600',
+  source => 'puppet:///modules/sshd/sshd_config',
+} ~> # and then:
+service { 'sshd':
+  ensure => running,
+  enable => true,
+}
+
+or
+Service['httpd'] <~ File['apache.conf'] <- Package['httpd']
+# Service 'httpd' is subscribed to File 'apache.conf',
+# if File changes, Service will restart.
+# File 'apache.conf' requires Package 'httpd'
+</code></pre><br>
+<b>Resource Collector Chaining:</b>
+<pre><code class="language-puppet">
+Yumrepo <| |> -> Package <| |>
+</code></pre><br>
+<!--  ############  EOF ORDERING  -->
+
+<!--  ############  DEFINED TYPES -->
+<hr>
+<a name="definedtypes"></a>
+<span class="header">Defined Types</span></p>
+<pre><code class="language-puppet">
+# Before declaring Apache class
+define apache::virtualhost (
+  $ensure   = present,
+  $template = 'apache/virtualhost.conf.erb' ,
+  [...] ) {
+
+  file { "ApacheVirtualHost_${name}":
+    ensure  => $ensure,
+    content => template("${template}"),
+  }
+}
+
+# Declaration of a define, after declaring Apache class
+
+class apache {
+apache::virtualhost { 'www.example42.com':
+  template => 'site/apache/www.example42.com-erb'
+}
+}
+
+</code></pre><br>
+<!--  ############  EOF DEFINED TYPES  -->
+
+
+<!--  ############ FUNCTIONS -->
+<hr>
+<a name="functions"></a>
+<span class="header">Functions</span></p>
+Default custom function location:<br>
+<span class="cmd">$basemodulepath/module_name/lib/puppet/<br>
+parser/functions/function_name.rb</span><br>
+
+
+<!--  ############ ERB TEMPLATES -->
+<hr>
+<a name="templates"></a>
+<span class="header">ERB Templates</span></p>
+Passing parameters:<br>
+<span class="cmd"><%= @fqdn %></span>
+
+for loop
+<pre><code class="language-puppet">
+<% @dns_servers.each do |ns| %>
+nameserver <%= ns %>
+<% end %>
+
+<% for @item in @shopping_list %>
+    <%= @item %>
+<% end %>
+</code></pre>
+
+
+
+
+
+</body>
+</html>

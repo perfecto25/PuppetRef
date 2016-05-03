@@ -1,0 +1,61 @@
+<html>
+<head>
+<!-- CSS -->
+<link href="style.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="prism.css" media="screen" />
+
+<!-- JS -->
+<script type="text/javascript" src="prism.js"></script>
+
+</head>
+
+<body>   
+
+
+
+<pre><code class="language-puppet">
+print modulepath:<br>
+puppet config print modulepath
+
+modules help:
+puppet help module
+
+search available modules: (PuppetForge)
+puppet module search 'nginx'
+
+install a module
+puppet module install author/module (puppetlabs/apache)
+
+build new module with full skeleton:
+puppet module generate author/module
+
+list installed modules:
+puppet module list
+
+build a module release package (.tar.gz)
+puppet module build author/module
+
+show modified files of an installed module
+puppet module changes
+
+Module paths:
+apache/             # main module dir
+apache/manifests    # manifest code
+apache/lib          # plugins, ruby code
+apache/templates    # ERB templates
+apache/files        # files used in module
+apache/tests        # usage examples
+apache/Modulefile   # metadata
+
+paths inside a module:
+
+content => template('mysql/my.cnf.erb'),
+# Template is in: $modulepath/mysql/templates/my.cnf.erb
+
+source => 'puppet:///modules/mysql/my.cnf'
+# File is in: $modulepath/mysql/files/my.cnf
+
+
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<html>
+<head>
+<!-- CSS -->
+<link href="style.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="prism.css" media="screen" />
+<!-- JS -->
+<script type="text/javascript" src="prism.js"></script>
+
+</head>
+<body>   
+
+<pre><code class="language-puppet">
+# 4 types of functions
+hiera()
+hiera_array()
+hiera_hash()
+hiera_include()
+
+# Hiera
+general lookup using a yaml file
+
+# Hiera Array
+$ hiera ssh_users
+["root", "jeff", "gary", "hunter"]
+
+$ hiera ssh_users.0
+root
+
+# Hiera Hash:
+$ hiera user
+{"name"=>"kim", "home"=>"/home/kim"}
+
+$ hiera user.name
+kim
+
+# include
+hiera_include()
+
+# Hiera config file
+/etc/puppetlabs/puppet/hiera.yaml
+
+# Hierarchies:
+---
+    :hierarchy:
+      - "nodes/%{::clientcert}"
+      - "roles/%{::role}"
+      - "%{::osfamily}"
+      - "%{::environment}"
+      - common
+
+
+# sample hiera xyz.yaml
+---
+###  xyz
+classes:
+  - apache
+  - apache::vhost
+  - ntp
+owner: joe smith
+location: new york
+business_unit: billing
+
+</code></pre>
+
+Get hiera value for this host:<br>
+<span class="cmd">hiera classes ::hostname=xyz<br>
+["apache", "apache::vhost", "ntp"]
+
+run Hiera in debug mode:
+hiera classes ::hostname=xyz -d
+
+Use Hiera in manifest:
+$my_dns_servers = hiera("dns_servers")
+
+or array:
+$my_dns_servers = hiera_array("dns_servers")
+
+</body>
+</html>
