@@ -60,20 +60,20 @@ owner: joe smith
 location: new york
 business_unit: billing
 
-</code></pre>
 
-Get hiera value for this host:<br>
-<span class="cmd">hiera classes ::hostname=xyz<br>
+
+# Get hiera value for this host:
+hiera classes ::hostname=xyz
 ["apache", "apache::vhost", "ntp"]
 
-run Hiera in debug mode:
+# run Hiera in debug mode:
 hiera classes ::hostname=xyz -d
 
-Use Hiera in manifest:
+# Use Hiera in manifest:
 $my_dns_servers = hiera("dns_servers")
 
-or array:
+# or array:
 $my_dns_servers = hiera_array("dns_servers")
-
+</code></pre>
 </body>
 </html>

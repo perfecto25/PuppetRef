@@ -8,37 +8,34 @@
 <script type="text/javascript" src="prism.js"></script>
 
 </head>
-
 <body>   
 
-
-
 <pre><code class="language-puppet">
-print modulepath:<br>
+# print modulepath:
 puppet config print modulepath
 
-modules help:
+# modules help:
 puppet help module
 
-search available modules: (PuppetForge)
+# search available modules: (PuppetForge)
 puppet module search 'nginx'
 
-install a module
-puppet module install author/module (puppetlabs/apache)
+# install a module
+puppet module install author/module
 
-build new module with full skeleton:
+# build new module with full skeleton:
 puppet module generate author/module
 
-list installed modules:
+# list installed modules:
 puppet module list
 
-build a module release package (.tar.gz)
+# build a module release package (.tar.gz)
 puppet module build author/module
 
-show modified files of an installed module
+# show modified files of an installed module
 puppet module changes
 
-Module paths:
+# Module paths:
 apache/             # main module dir
 apache/manifests    # manifest code
 apache/lib          # plugins, ruby code

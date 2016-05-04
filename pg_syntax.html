@@ -178,7 +178,8 @@ notify { $warning_msg[disk]: }
 Accepts numbers, strings, arrays, hashes, booleans, data types<p>
 
 <span class="cmd">!=  (not-equal)</span><br>
-Resolves to false if the operands are equal. Note that $x != $y is the same as !($x == $y).<p>
+Resolves to false if the operands are equal.<br>
+Note that $x != $y is the same as !($x == $y).<p>
 
 <span class="cmd"><, > (less than, greater than)</span><br>
 Accepts numbers, strings, and data types; both operands must be the same type.<p>
@@ -187,7 +188,8 @@ Accepts numbers, strings, and data types; both operands must be the same type.<p
 Accepts numbers, strings, and data types; both operands must be the same type.<p>
 
 <span class="cmd">=~  (regex)</span><br>
-Accepts regular expression (/^[<>={7}/), stringified regex "^/[]", data type (Integer[1,10])<p>
+Accepts regular expression (/^[<>={7}/),<br>
+stringified regex "^/[]", data type (Integer[1,10])<p>
 
 <span class="cmd">!~  (regex non-match)</span><br>
 Accepts numbers, strings, arrays, hashes, booleans, data types<p>

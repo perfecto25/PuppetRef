@@ -6,15 +6,76 @@
 
 <!-- JS -->
 <script type="text/javascript" src="prism.js"></script>
-
 </head>
-
 <body>   
+<span class="header">Commands</span>
+<pre><code class="language-yaml">
+# Run MCollective as 'peadmin'
+ sudo -i -u peadmin
+
+# check connection to nodes
+mco ping 
+
+# check how many Ubuntu servers are there
+mco facts operatingsystem
+
+# check how many MCO nodes are running
+mco puppet count
+
+# restart apache service
+mco rpc service restart service=httpd
+
+# check status of a package
+mco package status puppet
+
+# list all subcollectives
+mco inventory --list-collectives
+
+# disable puppet agent on node
+mco puppet disable -I nodename
+
+# find all nodes that are x64
+mco ping -F architecture=x86_64
+
+# find all nodes containing NYC in hostname
+mco find --with-identity /nyc/
+
+# find all nodes with nginx class
+mco find --with-class nginx
+
+# kick off 'puppet agent -t' on your nodes
+mco puppet runall -F osfamily=Redhat 5
+
+# will run puppet agent -t on all nodes where
+# osfamily fact = redhat, 5 concurrent runs
+
+# kick off Puppet run on node 'abc.xyz'
+mco puppet runonce -l abc.xyz
+
+# run command against a subcollective
+mco ping -T us_collective
+
+# start/stop service on a node
+mco service ntp start -I ny14.nyc
+
+# show all available MCO plugins
+mco plugin doc
+
+# show last run statistics for all nodes
+mco rpc puppet last_run_summary
+</code></pre><br>
+
+<hr>
+<span class="header">Files and Locations:</span>
+<pre><code class="language-yaml">
+# Location of plugins on Master
+/opt/puppetlabs/mcollective/plugins/mcollective
+
+# Configure Subcollective
+/etc/puppetlabs/mcollective/server.cfg
 
 
-
-<pre><code class="language-puppet">
-MCOLLECTIVE
+</code></pre><br>
 
 
 

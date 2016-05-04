@@ -11,20 +11,37 @@
 
 
 <body>
-
-<span class="header">Config</span><p>
-Agent config file:<br>
-<span class="cmd">/etc/puppetlabs/puppet/puppet.conf</span>    
-
-<hr>    
-<span class="header">Catalog</span><p>
-Catalog is saved on the agent as a .json file<br>
-<span class="cmd">/var/lib/puppet/client_data/catalog/$certname.json</span>
-
-<hr>
-<span class="header">Commands</span>
 <pre><code class="language-puppet">
-FACTER
+# show all facters
+facter
+
+# show OS Family facter
+facter osfamily
+
+# show facters in YAML
+facter -y
+
+# show facters in JSON
+facter -j
+
+# use fact inside a manifest using 'facter' function
+notify { "OS is ${::facts['operatingsystem']}": }
+
+# use fact inside manifest directly
+notify { "OS is $::operatingsystem": }
+
+# get facter Hash
+facter system_uptime
+{
+  days => 2,
+  hours => 70,
+  seconds => 253058,
+  uptime => "2 days"
+}
+
+
+facter system_uptime.hours
+70
 
 </code></pre>
 

@@ -6,62 +6,58 @@
 
 <!-- JS -->
 <script type="text/javascript" src="prism.js"></script>
-
 </head>
-
-
 <body>
 <span class="header">Certificates</span>
-List all certs
-<span class="cmd">puppet cert list --all</span>
 
-sign certificate
-<span class="cmd">puppet cert sign <certname></certname>
+<pre><code class="language-yaml">
+# List all certs
+puppet cert list --all
 
-remove client cert
-<span class="cmd">puppet cert clean</span>
+# sign certificate
+puppet cert sign <certname></certname>
 
+# remove client cert
+puppet cert clean</span>
+</code></pre>
 
 <hr>
 <span class="header">Configuration</span>
-Puppet configuration file:<br>
+<pre><code class="language-yaml">
+# Puppet configuration file:
 /etc/puppetlabs/puppet/puppet.conf
-<p>
-Print all configuration settings:<br>
+
+# Print all configuration settings:
 puppet config print all
 
-<p></p>
-Check current Puppet version and if theres an update available:<br>
+# Check current Puppet version and if theres an update available:
 ./opt/puppetlabs/bin/puppet-enterprise-version-check
+</code></pre>
 
-
-
-
-
-<!--  ###########   LOGS  -->
-<a name="resources"></a>
+<hr>
 <span class="header">Log and File Locations</span>
-Puppet Server log:<br>
+<pre><code class="language-yaml">
+# Puppet Server log:
 /var/log/puppetlabs/puppetserver/puppetserver.log
-<p></p>
-PuppetDB log:<br>
+
+# PuppetDB log:
 /var/log/puppetlabs/puppetdb/puppetdb.log
-<p></p>
-SSL certs location:<br>
+
+# SSL certs location:
 /etc/puppetlabs/puppet/ssl
-<p></p>
-Master Configuration file:<br>
+
+# Master Configuration file:
 /etc/puppetlabs/puppet/puppet.conf
-<p></p>
-Agent installation packages:<br>
+
+# Agent installation packages:
 /opt/puppetlabs/server/data/packages/public/current
-<p></p>
-Site.pp location:<br>
+
+# Site.pp location:
 /etc/puppetlabs/code/environments/productions/manifests/site.pp
-<p></p>
-Environment config file:<br>
+
+# Environment config file:
 /etc/puppetlabs/code/environments/production/environment.conf
-<p></p>
+
 
 
 
