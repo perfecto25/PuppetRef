@@ -298,8 +298,8 @@ define apache::virtualhost (
 # Declaration of a define, after declaring Apache class
 
 class apache {
-apache::virtualhost { 'www.example42.com':
-  template => 'site/apache/www.example42.com-erb'
+apache::virtualhost { 'www.myvhost.com':
+  template => 'site/apache/www.myvhost.com-erb'
 }
 }
 
